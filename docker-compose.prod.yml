@@ -20,6 +20,9 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: 4321
+    dns: # DNS public (l'hôte utilise systemd-resolved 127.0.0.53, inutilisable en conteneur)
+      - 8.8.8.8
+      - 1.1.1.1
     expose:
       - "4321" # accessible uniquement en interne (via Caddy)
     restart: unless-stopped
@@ -34,6 +37,9 @@ services:
       - "443:443"
     env_file:
       - .env # fournit SITE_DOMAIN au Caddyfile
+    dns: # nécessaire pour joindre Let's Encrypt depuis le conteneur
+      - 8.8.8.8
+      - 1.1.1.1
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
