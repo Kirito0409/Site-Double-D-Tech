@@ -1,0 +1,45 @@
+# =====================================================================
+#  Déploiement VPS — HTTPS automatique via Caddy (Let's Encrypt)
+#
+#  Prérequis :
+#   1. Le domaine (SITE_DOMAIN) pointe vers l'IP du VPS (enreg. DNS A)
+#   2. Les ports 80 et 443 sont ouverts dans le pare-feu du VPS
+#   3. Le fichier .env est rempli (SMTP_PASS + SITE_DOMAIN)
+#
+#  Lancement :
+#   docker compose -f docker-compose.prod.yml up -d --build
+# =====================================================================
+
+services:
+  web:
+    build: .
+    image: double-d-tech
+    container_name: ddtech-web
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 4321
+    expose:
+      - "4321" # accessible uniquement en interne (via Caddy)
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: ddtech-caddy
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - .env # fournit SITE_DOMAIN au Caddyfile
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

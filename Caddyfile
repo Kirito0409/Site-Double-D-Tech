@@ -1,0 +1,13 @@
+# Reverse proxy + HTTPS automatique (Let's Encrypt) pour le VPS.
+# Le domaine est lu depuis la variable SITE_DOMAIN (voir .env),
+# avec doubledtech.fr par défaut.
+
+{$SITE_DOMAIN:doubledtech.fr} {
+	encode zstd gzip
+	reverse_proxy web:4321
+}
+
+# Redirige www -> domaine principal (adaptez si besoin)
+www.{$SITE_DOMAIN:doubledtech.fr} {
+	redir https://{$SITE_DOMAIN:doubledtech.fr}{uri} permanent
+}

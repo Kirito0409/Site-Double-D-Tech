@@ -56,12 +56,12 @@ src/
 | `npm run build`   | Build de production dans `dist/`                 |
 | `npm run preview` | Lance le serveur Node de production              |
 
-## 🐳 Docker
+## 🐳 Docker (local / test)
 
 Le site tourne en conteneur (serveur Node standalone d'Astro).
 
 ```bash
-# build + run avec docker-compose (lit automatiquement le .env)
+# build + run (lit automatiquement le .env), site sur http://localhost:4321
 docker compose up --build
 
 # ou en Docker « pur »
@@ -69,7 +69,49 @@ docker build -t double-d-tech .
 docker run -p 4321:4321 --env-file .env double-d-tech
 ```
 
-Le site est ensuite disponible sur <http://localhost:4321>.
+## 🚀 Déploiement sur un VPS (HTTPS automatique)
+
+La pile de production `docker-compose.prod.yml` ajoute un reverse proxy **Caddy**
+qui obtient et renouvelle automatiquement un certificat **HTTPS Let's Encrypt**
+pour votre domaine.
+
+### Prérequis
+
+1. Un VPS avec **Docker** et **Docker Compose** installés.
+2. Le domaine `SITE_DOMAIN` (ex. `doubledtech.fr`) **pointe vers l'IP du VPS**
+   (enregistrement DNS de type **A**, + un `A` pour `www` si souhaité).
+3. Les **ports 80 et 443** sont ouverts dans le pare-feu du VPS.
+4. Le port SMTP sortant (**465**) est autorisé (pour l'envoi d'emails).
+
+### Étapes
+
+```bash
+# 1. Récupérer le projet sur le VPS
+git clone <votre-repo> double-d-tech && cd double-d-tech
+#   (ou copiez le dossier via scp / rsync)
+
+# 2. Créer le fichier .env et le remplir (SMTP_PASS + SITE_DOMAIN)
+cp .env.example .env
+nano .env
+
+# 3. Lancer en production (build + HTTPS auto, en arrière-plan)
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+Le site est alors accessible en **https://votre-domaine** — le certificat TLS est
+généré automatiquement au premier démarrage (patientez ~30 s).
+
+### Commandes utiles
+
+```bash
+docker compose -f docker-compose.prod.yml logs -f        # voir les logs
+docker compose -f docker-compose.prod.yml ps             # état des conteneurs
+docker compose -f docker-compose.prod.yml up -d --build  # redéployer après maj
+docker compose -f docker-compose.prod.yml down           # arrêter
+```
+
+> **Mise à jour du site** : `git pull` puis relancez la commande `up -d --build`.
+> Caddy et les certificats sont conservés dans des volumes Docker (`caddy_data`).
 
 ---
 

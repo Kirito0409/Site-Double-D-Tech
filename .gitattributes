@@ -1,0 +1,8 @@
+# Normalise les fins de ligne en LF (évite les soucis Windows -> Linux/VPS)
+* text=auto eol=lf
+
+# Fichiers binaires : ne pas toucher
+*.png binary
+*.jpg binary
+*.svg text eol=lf
+*.tar binary

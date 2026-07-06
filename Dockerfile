@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install dependencies (cached layer)
 COPY package.json package-lock.json* ./
-RUN npm install
+RUN npm ci
 
 # Build the Astro app (server output -> ./dist)
 COPY . .

@@ -23,3 +23,6 @@ pnpm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# gros artefact hérité (ne pas pousser sur GitHub)
+monsite.tar
