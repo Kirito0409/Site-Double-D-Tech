@@ -27,6 +27,18 @@ const json = (data: unknown, status = 200) =>
     headers: { 'Content-Type': 'application/json' },
   });
 
+// Read process.env first (runtime: Docker env_file, `node --env-file`),
+// then fall back to import.meta.env (dev server / build-time).
+const env = (key: string): string | undefined =>
+  process.env[key] ?? (import.meta.env as Record<string, string | undefined>)[key];
+
+/** Extrait l'adresse email d'une valeur type `"Nom <a@b.c>"` ou `a@b.c`. */
+const extractEmail = (v: string | undefined): string | undefined => {
+  if (!v) return undefined;
+  const m = v.match(/<([^>]+)>/);
+  return (m ? m[1] : v).trim();
+};
+
 export const POST: APIRoute = async ({ request }) => {
   let data: ContactPayload;
   try {
@@ -53,45 +65,20 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: 'Merci de renseigner au minimum un nom et un email valide.' }, 400);
   }
 
-  // SMTP configuration from environment variables.
-  // Read process.env first (runtime: Docker env_file, `node --env-file`),
-  // then fall back to import.meta.env (dev server / build-time).
-  const env = (key: string): string | undefined =>
-    process.env[key] ?? (import.meta.env as Record<string, string | undefined>)[key];
-
+  const CONTACT_TO = env('CONTACT_TO');
+  const CONTACT_FROM = env('CONTACT_FROM');
+  const BREVO_API_KEY = env('BREVO_API_KEY');
   const SMTP_HOST = env('SMTP_HOST');
   const SMTP_PORT = env('SMTP_PORT');
   const SMTP_USER = env('SMTP_USER');
   const SMTP_PASS = env('SMTP_PASS');
   const SMTP_SECURE = env('SMTP_SECURE');
-  const CONTACT_TO = env('CONTACT_TO');
-  const CONTACT_FROM = env('CONTACT_FROM');
 
   const to = CONTACT_TO || SMTP_USER;
+  const fromEmail = extractEmail(CONTACT_FROM) || extractEmail(SMTP_USER) || to;
+  const fromName = 'Double D Tech — Site';
 
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !to) {
-    console.error(
-      '[contact] SMTP non configuré. Renseignez SMTP_HOST, SMTP_USER, SMTP_PASS et CONTACT_TO dans .env'
-    );
-    return json(
-      {
-        error:
-          "Le service d'envoi n'est pas encore configuré. Contactez-nous directement par email en attendant.",
-      },
-      500
-    );
-  }
-
-  const port = Number(SMTP_PORT) || 587;
-  const secure = SMTP_SECURE ? SMTP_SECURE === 'true' : port === 465;
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port,
-    secure,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-  });
-
+  // ---------- Corps du message (partagé entre Brevo et SMTP) ----------
   const subject = `Nouvelle demande — ${need || 'Contact'} — ${name}`;
 
   const textBody = [
@@ -121,9 +108,81 @@ export const POST: APIRoute = async ({ request }) => {
       <p style="white-space:pre-wrap;font-size:14px;line-height:1.6;">${escapeHtml(message) || '—'}</p>
     </div>`;
 
+  if (!to || !fromEmail) {
+    console.error('[contact] Aucune destination/expéditeur. Renseignez CONTACT_TO dans .env');
+    return json(
+      { error: "Le service d'envoi n'est pas encore configuré." },
+      500
+    );
+  }
+
+  // ======================================================================
+  //  Méthode 1 (prioritaire) — Brevo via API HTTPS (port 443).
+  //  Contourne le blocage SMTP sortant des VPS OVH. Actif si BREVO_API_KEY.
+  // ======================================================================
+  if (BREVO_API_KEY) {
+    try {
+      const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': BREVO_API_KEY,
+          'content-type': 'application/json',
+          accept: 'application/json',
+        },
+        body: JSON.stringify({
+          sender: { name: fromName, email: fromEmail },
+          to: [{ email: to }],
+          replyTo: { email, name },
+          subject,
+          htmlContent: htmlBody,
+          textContent: textBody,
+        }),
+      });
+
+      if (res.ok) return json({ ok: true });
+
+      const body = await res.text();
+      console.error('[contact] Brevo a refusé l’envoi:', res.status, body);
+      if (res.status === 401) {
+        return json({ error: 'Clé API email invalide (BREVO_API_KEY).' }, 502);
+      }
+      return json({ error: "L'envoi a échoué. Merci de réessayer plus tard." }, 502);
+    } catch (err) {
+      console.error('[contact] Erreur réseau vers Brevo:', err);
+      return json({ error: "L'envoi a échoué. Merci de réessayer plus tard." }, 502);
+    }
+  }
+
+  // ======================================================================
+  //  Méthode 2 (secours) — SMTP direct (nodemailer).
+  //  Nécessite que le SMTP sortant soit autorisé (OVH le bloque par défaut).
+  // ======================================================================
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
+    console.error('[contact] Aucun moyen d’envoi configuré (ni BREVO_API_KEY, ni SMTP_*).');
+    return json(
+      {
+        error:
+          "Le service d'envoi n'est pas encore configuré. Contactez-nous directement par email en attendant.",
+      },
+      500
+    );
+  }
+
+  const port = Number(SMTP_PORT) || 587;
+  const secure = SMTP_SECURE ? SMTP_SECURE === 'true' : port === 465;
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port,
+    secure,
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+  });
+
   try {
     await transporter.sendMail({
-      from: CONTACT_FROM || `"Double D Tech — Site" <${SMTP_USER}>`,
+      from: CONTACT_FROM || `"${fromName}" <${SMTP_USER}>`,
       to,
       replyTo: `"${name}" <${email}>`,
       subject,
@@ -132,16 +191,12 @@ export const POST: APIRoute = async ({ request }) => {
     });
     return json({ ok: true });
   } catch (err) {
-    console.error('[contact] Échec de l’envoi:', err);
-    // Give a clearer hint when the SMTP credentials are wrong.
+    console.error('[contact] Échec de l’envoi SMTP:', err);
     const code = (err as { code?: string; responseCode?: number })?.code;
     const responseCode = (err as { responseCode?: number })?.responseCode;
     if (code === 'EAUTH' || responseCode === 535) {
       return json(
-        {
-          error:
-            "Identifiants email refusés par le serveur. Vérifiez SMTP_USER / SMTP_PASS dans .env.",
-        },
+        { error: 'Identifiants email refusés par le serveur. Vérifiez SMTP_USER / SMTP_PASS.' },
         502
       );
     }
