@@ -1,0 +1,85 @@
+---
+// Fixed header with desktop nav + mobile toggle
+---
+
+<header
+  style="position:fixed; top:0; left:0; right:0; z-index:50; backdrop-filter:blur(10px); background:linear-gradient(180deg, rgba(2,11,20,.82), rgba(2,11,20,.35)); border-bottom:1px solid rgba(0,230,118,.10);"
+>
+  <div
+    style="max-width:1240px; margin:0 auto; padding:15px 26px; display:flex; align-items:center; justify-content:space-between; gap:20px;"
+  >
+    <a href="#accueil" style="display:flex; align-items:center; gap:11px; color:#fff;">
+      <span
+        style="display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:11px; border:1px solid rgba(0,230,118,.5); background:radial-gradient(circle at 50% 35%, rgba(0,230,118,.22), rgba(6,24,38,.6)); box-shadow:0 0 18px rgba(0,230,118,.35), inset 0 0 12px rgba(0,230,118,.15); font-family:'Space Grotesk'; font-weight:700; font-size:17px; letter-spacing:-1px; color:#00e676; text-shadow:0 0 10px rgba(0,230,118,.7);"
+        >DD</span
+      >
+      <span style="display:flex; flex-direction:column; line-height:1;">
+        <span style="font-family:'Space Grotesk'; font-weight:600; font-size:15px; letter-spacing:.5px;"
+          >Double D Tech</span
+        >
+        <span
+          style="font-family:'JetBrains Mono'; font-size:9.5px; letter-spacing:2px; color:#00e676; margin-top:3px;"
+          >CYBERSÉCURITÉ</span
+        >
+      </span>
+    </a>
+
+    <nav
+      class="dd-desknav"
+      style="display:flex; align-items:center; gap:30px; font-size:13.5px; letter-spacing:.4px; color:#c3d3cf;"
+    >
+      <a class="dd-navlink" href="#accueil" style="color:inherit;">Accueil</a>
+      <a class="dd-navlink" href="#services" style="color:inherit;">Services</a>
+      <a class="dd-navlink" href="#methode" style="color:inherit;">Méthode</a>
+      <a class="dd-navlink" href="#offres" style="color:inherit;">Offres</a>
+      <a class="dd-navlink" href="#apropos" style="color:inherit;">À propos</a>
+      <a class="dd-navlink" href="#contact" style="color:inherit;">Contact</a>
+      <a
+        class="dd-btn dd-ghost"
+        href="#contact"
+        style="border:1px solid rgba(0,230,118,.55); color:#00e676; padding:9px 18px; border-radius:999px; font-weight:600; font-size:13px;"
+        >Demander un audit</a
+      >
+    </nav>
+
+    <button
+      id="dd-mobtoggle"
+      class="dd-mobtoggle"
+      aria-label="Menu"
+      aria-expanded="false"
+      style="width:44px; height:44px; align-items:center; justify-content:center; border-radius:11px; border:1px solid rgba(0,230,118,.4); background:rgba(6,24,38,.6); color:#00e676; cursor:pointer; font-size:20px;"
+      >≡</button
+    >
+  </div>
+
+  <nav
+    id="dd-mobnav"
+    hidden
+    style="display:flex; flex-direction:column; gap:2px; padding:8px 20px 18px; background:rgba(4,16,26,.96); border-top:1px solid rgba(0,230,118,.1);"
+  >
+    <a class="dd-mobnav-link" href="#services" style="color:#d4e2de; padding:11px 6px; border-bottom:1px solid rgba(255,255,255,.05);">Services</a>
+    <a class="dd-mobnav-link" href="#methode" style="color:#d4e2de; padding:11px 6px; border-bottom:1px solid rgba(255,255,255,.05);">Méthode</a>
+    <a class="dd-mobnav-link" href="#offres" style="color:#d4e2de; padding:11px 6px; border-bottom:1px solid rgba(255,255,255,.05);">Offres</a>
+    <a class="dd-mobnav-link" href="#apropos" style="color:#d4e2de; padding:11px 6px; border-bottom:1px solid rgba(255,255,255,.05);">À propos</a>
+    <a class="dd-mobnav-link" href="#contact" style="color:#00e676; padding:11px 6px; font-weight:600;">Demander un audit</a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('dd-mobtoggle');
+  const mobnav = document.getElementById('dd-mobnav');
+  if (toggle && mobnav) {
+    const close = () => {
+      mobnav.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+    toggle.addEventListener('click', () => {
+      const open = mobnav.hidden;
+      mobnav.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    mobnav
+      .querySelectorAll('.dd-mobnav-link')
+      .forEach((a) => a.addEventListener('click', close));
+  }
+</script>

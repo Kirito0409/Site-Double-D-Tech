@@ -1,0 +1,213 @@
+@import 'tailwindcss';
+
+/* Fonts (self-hosted via @fontsource would be ideal; here we keep the model's
+   Google Fonts to match the reference exactly). Loaded in Layout.astro <head>. */
+
+@theme {
+  --color-ink: #e6f0ee;
+  --color-base: #020b14;
+  --color-accent: #00e676;
+  --color-accent-soft: #5affa0;
+  --color-blue: #3d8fe0;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: #020b14;
+  color: #e6f0ee;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a {
+  color: #00e676;
+  text-decoration: none;
+}
+a:hover {
+  color: #5affa0;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* ---------- Animations ---------- */
+@keyframes ddfloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes ddpulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+@keyframes ddring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ddscrolldot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+@keyframes ddin {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Reveal on scroll ---------- */
+.dd-reveal {
+  opacity: 0;
+}
+.dd-reveal.dd-vis {
+  animation: ddin 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+/* ---------- Cards & buttons ---------- */
+.dd-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.dd-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 230, 118, 0.55) !important;
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.25),
+    0 18px 50px -12px rgba(0, 230, 118, 0.28);
+}
+.dd-btn {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+.dd-btn:hover {
+  transform: translateY(-2px);
+}
+.dd-primary:hover {
+  box-shadow: 0 0 28px rgba(0, 230, 118, 0.6);
+}
+.dd-ghost:hover {
+  background: rgba(0, 230, 118, 0.1);
+  box-shadow: 0 0 22px rgba(0, 230, 118, 0.35);
+}
+
+/* ---------- Nav links ---------- */
+.dd-navlink {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.dd-navlink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 0;
+  background: #00e676;
+  box-shadow: 0 0 8px #00e676;
+  transition: width 0.25s ease;
+}
+.dd-navlink:hover::after {
+  width: 100%;
+}
+
+/* ---------- Form inputs ---------- */
+.dd-input:focus {
+  outline: none;
+  border-color: #00e676 !important;
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.4),
+    0 0 18px rgba(0, 230, 118, 0.2);
+}
+.dd-field-label {
+  color: #7fa39a;
+}
+
+/* ---------- Mobile nav toggle ---------- */
+.dd-mobtoggle {
+  display: none;
+}
+@media (max-width: 860px) {
+  .dd-desknav {
+    display: none !important;
+  }
+  .dd-mobtoggle {
+    display: inline-flex !important;
+  }
+  .dd-hero-h1 {
+    font-size: 15vw !important;
+  }
+}
+
+/* ---------- Responsive layout ---------- */
+/* Two-column sections (Différence, À propos, Contact) stack on tablet/mobile */
+@media (max-width: 820px) {
+  .dd-2col {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+}
+/* Small phones: single-column forms & checklists */
+@media (max-width: 540px) {
+  .dd-form-2col {
+    grid-template-columns: 1fr !important;
+  }
+  .dd-check-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* Reduce heavy vertical padding on small screens */
+@media (max-width: 600px) {
+  .dd-section {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+  }
+}

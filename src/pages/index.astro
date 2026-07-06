@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Problem from '../components/Problem.astro';
+import Services from '../components/Services.astro';
+import Method from '../components/Method.astro';
+import Difference from '../components/Difference.astro';
+import Offers from '../components/Offers.astro';
+import Deliverables from '../components/Deliverables.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+
+// This page is fully static — only /api/contact runs on the server.
+export const prerender = true;
+---
+
+<Layout>
+  <Header />
+  <Hero />
+  <Problem />
+  <Services />
+  <Method />
+  <Difference />
+  <Offers />
+  <Deliverables />
+  <About />
+  <Contact />
+  <Footer />
+</Layout>

@@ -1,0 +1,49 @@
+---
+const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL ?? 'ddelaunay@doubledtech.fr';
+---
+
+<footer style="border-top:1px solid rgba(0,230,118,.1); background:rgba(3,11,19,.85); backdrop-filter:blur(8px);">
+  <div
+    style="max-width:1180px; margin:0 auto; padding:48px 26px 30px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:34px;"
+  >
+    <div>
+      <div style="display:flex; align-items:center; gap:11px; margin-bottom:14px;">
+        <span
+          style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:11px; border:1px solid rgba(0,230,118,.5); background:radial-gradient(circle at 50% 35%, rgba(0,230,118,.2), rgba(6,24,38,.6)); box-shadow:0 0 16px rgba(0,230,118,.3); font-family:'Space Grotesk'; font-weight:700; font-size:16px; color:#00e676; text-shadow:0 0 10px rgba(0,230,118,.7);"
+          >DD</span
+        >
+        <span style="font-family:'Space Grotesk'; font-weight:600; font-size:16px;">Double D Tech</span>
+      </div>
+      <p
+        style="margin:0; font-family:'JetBrains Mono'; font-size:12px; letter-spacing:.5px; color:#7fa39a; line-height:1.7;"
+      >
+        Audit cyber • Analyse de risque • Veille sécurité
+      </p>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono'; font-size:11px; letter-spacing:2px; color:#00e676; margin-bottom:14px;">
+        NAVIGATION
+      </div>
+      <div style="display:flex; flex-direction:column; gap:9px; font-size:14px;">
+        <a href="#services" style="color:#a7bcb6;">Services</a>
+        <a href="#methode" style="color:#a7bcb6;">Méthode</a>
+        <a href="#offres" style="color:#a7bcb6;">Offres</a>
+        <a href="#contact" style="color:#a7bcb6;">Contact</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono'; font-size:11px; letter-spacing:2px; color:#00e676; margin-bottom:14px;">
+        CONTACT
+      </div>
+      <div style="display:flex; flex-direction:column; gap:9px; font-size:14px; color:#a7bcb6;">
+        <a href={`mailto:${contactEmail}`} style="color:#a7bcb6;">{contactEmail}</a>
+        <span>Double D Tech</span>
+      </div>
+    </div>
+  </div>
+  <div
+    style="border-top:1px solid rgba(255,255,255,.05); padding:20px 26px; text-align:center; font-size:13px; color:#6c847e;"
+  >
+    © Double D Tech — Tous droits réservés
+  </div>
+</footer>

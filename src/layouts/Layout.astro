@@ -1,0 +1,147 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Double D Tech — Cybersécurité pour TPE/PME',
+  description = 'Audit cyber, analyse de risque et plans d’action sécurité clairs et accessibles pour les TPE/PME. Diagnostic, audit complet et suivi mensuel.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div style="position:relative; min-height:100vh;">
+      <!-- Animated particle network background -->
+      <canvas
+        id="dd-bg"
+        style="position:fixed; inset:0; width:100%; height:100%; z-index:0; display:block;"
+      ></canvas>
+      <div
+        style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(1100px 620px at 50% -8%, rgba(0,230,118,.10), transparent 60%), radial-gradient(900px 700px at 82% 18%, rgba(30,120,220,.10), transparent 62%), linear-gradient(180deg, rgba(2,11,20,.35), rgba(2,11,20,.72));"
+      >
+      </div>
+
+      <div style="position:relative; z-index:2;">
+        <slot />
+      </div>
+    </div>
+
+    <script>
+      // --- Particle network canvas ---
+      const canvas = document.getElementById('dd-bg') as HTMLCanvasElement | null;
+      if (canvas) {
+        const ctx = canvas.getContext('2d')!;
+        let W = 0,
+          H = 0,
+          dpr = 1;
+        let nodes: {
+          x: number;
+          y: number;
+          vx: number;
+          vy: number;
+          r: number;
+          blue: boolean;
+        }[] = [];
+        let raf = 0;
+
+        const setup = () => {
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = canvas.clientWidth;
+          H = canvas.clientHeight;
+          canvas.width = W * dpr;
+          canvas.height = H * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          const count = Math.min(80, Math.floor((W * H) / 24000));
+          nodes = new Array(count).fill(0).map(() => ({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35,
+            r: Math.random() * 1.8 + 1,
+            blue: Math.random() > 0.72,
+          }));
+        };
+        setup();
+        window.addEventListener('resize', setup);
+
+        const draw = () => {
+          ctx.clearRect(0, 0, W, H);
+          for (const n of nodes) {
+            n.x += n.vx;
+            n.y += n.vy;
+            if (n.x < 0 || n.x > W) n.vx *= -1;
+            if (n.y < 0 || n.y > H) n.vy *= -1;
+          }
+          for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+              const a = nodes[i],
+                b = nodes[j];
+              const dx = a.x - b.x,
+                dy = a.y - b.y;
+              const d2 = dx * dx + dy * dy;
+              if (d2 < 15000) {
+                const al = (1 - d2 / 15000) * 0.22;
+                ctx.strokeStyle = 'rgba(0,230,118,' + al + ')';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.stroke();
+              }
+            }
+          }
+          for (const n of nodes) {
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+            ctx.fillStyle = n.blue ? 'rgba(70,150,240,0.85)' : 'rgba(0,230,118,0.9)';
+            ctx.shadowColor = n.blue ? 'rgba(70,150,240,0.9)' : 'rgba(0,230,118,0.9)';
+            ctx.shadowBlur = 8;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+          raf = requestAnimationFrame(draw);
+        };
+        draw();
+
+        window.addEventListener('beforeunload', () => cancelAnimationFrame(raf));
+      }
+
+      // --- Reveal on scroll ---
+      const els = document.querySelectorAll('.dd-reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach((e) => e.classList.add('dd-vis'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((en) => {
+              if (en.isIntersecting) {
+                en.target.classList.add('dd-vis');
+                io.unobserve(en.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+        els.forEach((e) => io.observe(e));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+---
+const cards = [
+  {
+    n: '01',
+    title: 'Manque de visibilité',
+    text: "Difficile de protéger ce que l'on ne voit pas : actifs, accès et données sensibles restent souvent hors radar.",
+  },
+  {
+    n: '02',
+    title: 'Risques mal priorisés',
+    text: 'Sans hiérarchisation, on corrige au hasard. Les vraies menaces critiques passent parfois après le superflu.',
+  },
+  {
+    n: '03',
+    title: 'Rapports trop techniques',
+    text: "Des documents illisibles pour un dirigeant ne mènent à aucune décision. Il faut du clair et de l'actionnable.",
+  },
+];
+---
+
+<section class="dd-section" style="max-width:1180px; margin:0 auto; padding:90px 26px;">
+  <div class="dd-reveal" style="text-align:center; max-width:780px; margin:0 auto;">
+    <div style="font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; color:#00e676; margin-bottom:14px;">
+      // LE CONSTAT
+    </div>
+    <h2 style="margin:0; font-size:clamp(30px,4.4vw,46px); font-weight:700; letter-spacing:-1px; color:#f2f9f6;">
+      Les petites entreprises sont aussi exposées
+    </h2>
+    <p style="margin:22px auto 0; font-size:16.5px; line-height:1.75; color:#93a8a3;">
+      Ransomwares, comptes compromis, sauvegardes inutilisables, failles non corrigées, services exposés sur Internet…
+      Les TPE/PME sont souvent ciblées car elles manquent de temps, de visibilité et de ressources pour piloter leur
+      sécurité.
+    </p>
+  </div>
+  <div
+    style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px; margin-top:52px;"
+  >
+    {
+      cards.map((c) => (
+        <div
+          class="dd-card dd-reveal"
+          style="padding:30px 26px; border-radius:16px; border:1px solid rgba(30,120,220,.22); background:rgba(8,20,34,.55); backdrop-filter:blur(6px);"
+        >
+          <div style="font-family:'JetBrains Mono'; font-size:13px; color:#3d8fe0; margin-bottom:14px;">{c.n}</div>
+          <h3 style="margin:0 0 10px; font-size:20px; color:#eaf3f0;">{c.title}</h3>
+          <p style="margin:0; font-size:14.5px; line-height:1.65; color:#8ba09b;">{c.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+const points = [
+  'Une approche claire, sans jargon inutile',
+  'Un accompagnement direct, interlocuteur unique',
+  'Des rapports compréhensibles par les dirigeants',
+  'Des recommandations concrètes et priorisées',
+  'Bonnes pratiques alignées ANSSI/CNIL',
+  'Une prestation adaptée aux TPE/PME',
+  'Une vision technique reliée aux enjeux métier',
+  'Une possibilité de suivi dans le temps',
+];
+---
+
+<section class="dd-section" style="max-width:1180px; margin:0 auto; padding:90px 26px;">
+  <div
+    class="dd-2col"
+    style="display:grid; grid-template-columns:minmax(280px,1fr) minmax(300px,1.2fr); gap:48px; align-items:center;"
+  >
+    <div class="dd-reveal">
+      <div style="font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; color:#00e676; margin-bottom:14px;">
+        // DIFFÉRENCE
+      </div>
+      <h2 style="margin:0 0 22px; font-size:clamp(28px,4vw,42px); font-weight:700; letter-spacing:-1px; color:#f2f9f6;">
+        Pourquoi choisir Double D Tech ?
+      </h2>
+      <div
+        style="padding:24px 26px; border-radius:16px; border:1px solid rgba(0,230,118,.28); background:rgba(0,230,118,.05); position:relative;"
+      >
+        <div
+          style="position:absolute; top:14px; left:18px; font-family:'Space Grotesk'; font-size:44px; color:rgba(0,230,118,.3); line-height:1;"
+        >
+          &ldquo;
+        </div>
+        <p
+          style="margin:0; padding-left:26px; font-size:17px; line-height:1.6; font-weight:500; color:#d7ede6; font-style:italic;"
+        >
+          Mon objectif n'est pas de vous remettre une liste de failles incompréhensible, mais de vous dire quoi corriger
+          en premier, pourquoi, et comment avancer efficacement.
+        </p>
+      </div>
+    </div>
+    <div class="dd-reveal dd-check-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      {
+        points.map((p) => (
+          <div
+            class="dd-diff"
+            style="display:flex; gap:11px; align-items:flex-start; padding:16px 16px; border-radius:12px; border:1px solid rgba(0,230,118,.14); background:rgba(9,24,40,.5);"
+          >
+            <span style="color:#00e676; flex:none; margin-top:1px;">✓</span>
+            <span style="font-size:14px; line-height:1.45; color:#c3d5cf;">{p}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,202 @@
+---
+// Public contact email shown on the page (configurable via env).
+const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL ?? 'ddelaunay@doubledtech.fr';
+---
+
+<section id="contact" class="dd-section" style="max-width:1080px; margin:0 auto; padding:90px 26px;">
+  <div
+    class="dd-2col"
+    style="display:grid; grid-template-columns:minmax(280px,1fr) minmax(320px,1.1fr); gap:50px; align-items:start;"
+  >
+    <div class="dd-reveal">
+      <div style="font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; color:#00e676; margin-bottom:14px;">
+        // CONTACT
+      </div>
+      <h2 style="margin:0 0 20px; font-size:clamp(28px,4vw,40px); font-weight:700; letter-spacing:-1px; color:#f2f9f6;">
+        Vous souhaitez connaître votre niveau de risque cyber ?
+      </h2>
+      <p style="margin:0 0 30px; font-size:16px; line-height:1.75; color:#a7bcb6;">
+        Demandez un premier échange pour identifier vos priorités sécurité et déterminer la prestation la plus adaptée à
+        votre entreprise.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div
+          style="display:flex; gap:14px; align-items:center; padding:16px 18px; border-radius:12px; border:1px solid rgba(0,230,118,.16); background:rgba(9,24,40,.5);"
+        >
+          <span
+            style="flex:none; display:inline-flex; width:40px; height:40px; align-items:center; justify-content:center; border-radius:10px; background:rgba(0,230,118,.1); color:#00e676;"
+            >✉</span
+          >
+          <div>
+            <div style="font-size:11px; letter-spacing:1px; color:#7fa39a; font-family:'JetBrains Mono';">EMAIL</div>
+            <a href={`mailto:${contactEmail}`} style="font-size:15px; color:#e6f2ee;">{contactEmail}</a>
+          </div>
+        </div>
+        <div
+          style="display:flex; gap:14px; align-items:center; padding:16px 18px; border-radius:12px; border:1px solid rgba(0,230,118,.16); background:rgba(9,24,40,.5);"
+        >
+          <span
+            style="flex:none; display:inline-flex; width:40px; height:40px; align-items:center; justify-content:center; border-radius:10px; background:rgba(0,230,118,.1); color:#00e676;"
+            >◧</span
+          >
+          <div>
+            <div style="font-size:11px; letter-spacing:1px; color:#7fa39a; font-family:'JetBrains Mono';">ENTREPRISE</div>
+            <div style="font-size:15px; color:#e6f2ee;">Double D Tech</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="dd-reveal"
+      style="padding:32px 30px; border-radius:20px; border:1px solid rgba(0,230,118,.22); background:rgba(8,20,34,.6); backdrop-filter:blur(8px); box-shadow:0 20px 60px -30px rgba(0,230,118,.3);"
+    >
+      <!-- Success state (hidden by default) -->
+      <div id="dd-form-success" hidden style="text-align:center; padding:40px 10px;">
+        <div
+          style="width:64px; height:64px; margin:0 auto 20px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(0,230,118,.12); border:1px solid rgba(0,230,118,.5); color:#00e676; font-size:30px; box-shadow:0 0 24px rgba(0,230,118,.4);"
+        >
+          ✓
+        </div>
+        <h3 style="margin:0 0 10px; font-size:22px; color:#eef6f3;">Demande envoyée</h3>
+        <p style="margin:0; font-size:15px; line-height:1.6; color:#a7bcb6;">
+          Merci ! Je reviens vers vous rapidement pour organiser un premier échange.
+        </p>
+      </div>
+
+      <form id="dd-contact-form" style="display:flex; flex-direction:column; gap:16px;">
+        <!-- Honeypot anti-spam (hidden from users) -->
+        <input
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+          aria-hidden="true"
+        />
+
+        <div class="dd-form-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <label style="display:flex; flex-direction:column; gap:7px;">
+            <span class="dd-field-label" style="font-size:12px; letter-spacing:.5px; font-family:'JetBrains Mono';">Nom</span>
+            <input
+              class="dd-input"
+              type="text"
+              name="name"
+              required
+              style="padding:12px 14px; border-radius:10px; border:1px solid rgba(0,230,118,.18); background:rgba(4,14,24,.7); color:#e6f2ee; font-size:14px; font-family:inherit;"
+            />
+          </label>
+          <label style="display:flex; flex-direction:column; gap:7px;">
+            <span class="dd-field-label" style="font-size:12px; letter-spacing:.5px; font-family:'JetBrains Mono';">Entreprise</span>
+            <input
+              class="dd-input"
+              type="text"
+              name="company"
+              style="padding:12px 14px; border-radius:10px; border:1px solid rgba(0,230,118,.18); background:rgba(4,14,24,.7); color:#e6f2ee; font-size:14px; font-family:inherit;"
+            />
+          </label>
+        </div>
+        <div class="dd-form-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <label style="display:flex; flex-direction:column; gap:7px;">
+            <span class="dd-field-label" style="font-size:12px; letter-spacing:.5px; font-family:'JetBrains Mono';">Email</span>
+            <input
+              class="dd-input"
+              type="email"
+              name="email"
+              required
+              style="padding:12px 14px; border-radius:10px; border:1px solid rgba(0,230,118,.18); background:rgba(4,14,24,.7); color:#e6f2ee; font-size:14px; font-family:inherit;"
+            />
+          </label>
+          <label style="display:flex; flex-direction:column; gap:7px;">
+            <span class="dd-field-label" style="font-size:12px; letter-spacing:.5px; font-family:'JetBrains Mono';">Téléphone</span>
+            <input
+              class="dd-input"
+              type="tel"
+              name="phone"
+              style="padding:12px 14px; border-radius:10px; border:1px solid rgba(0,230,118,.18); background:rgba(4,14,24,.7); color:#e6f2ee; font-size:14px; font-family:inherit;"
+            />
+          </label>
+        </div>
+        <label style="display:flex; flex-direction:column; gap:7px;">
+          <span class="dd-field-label" style="font-size:12px; letter-spacing:.5px; font-family:'JetBrains Mono';">Type de besoin</span>
+          <select
+            class="dd-input"
+            name="need"
+            style="padding:12px 14px; border-radius:10px; border:1px solid rgba(0,230,118,.18); background:rgba(4,14,24,.7); color:#e6f2ee; font-size:14px; font-family:inherit;"
+          >
+            <option>Diagnostic</option>
+            <option>Audit</option>
+            <option>Analyse de risque</option>
+            <option>Suivi mensuel</option>
+            <option>Autre</option>
+          </select>
+        </label>
+        <label style="display:flex; flex-direction:column; gap:7px;">
+          <span class="dd-field-label" style="font-size:12px; letter-spacing:.5px; font-family:'JetBrains Mono';">Message</span>
+          <textarea
+            class="dd-input"
+            name="message"
+            rows="4"
+            style="padding:12px 14px; border-radius:10px; border:1px solid rgba(0,230,118,.18); background:rgba(4,14,24,.7); color:#e6f2ee; font-size:14px; font-family:inherit; resize:vertical;"
+          ></textarea>
+        </label>
+
+        <p
+          id="dd-form-error"
+          hidden
+          style="margin:0; font-size:13.5px; color:#ff8080; font-family:'JetBrains Mono';"
+        >
+        </p>
+
+        <button
+          id="dd-submit"
+          class="dd-btn dd-primary"
+          type="submit"
+          style="margin-top:4px; padding:15px; border-radius:999px; border:none; background:#00e676; color:#04140b; font-weight:700; font-size:15px; cursor:pointer; box-shadow:0 0 22px rgba(0,230,118,.4);"
+        >
+          Envoyer ma demande
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('dd-contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('dd-form-success');
+  const errorEl = document.getElementById('dd-form-error');
+  const submitBtn = document.getElementById('dd-submit') as HTMLButtonElement | null;
+
+  if (form && success && errorEl && submitBtn) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Envoi en cours…';
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(body?.error || 'Une erreur est survenue. Veuillez réessayer.');
+        }
+        form.hidden = true;
+        success.hidden = false;
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        errorEl.textContent =
+          err instanceof Error ? err.message : 'Une erreur est survenue. Veuillez réessayer.';
+        errorEl.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  }
+</script>

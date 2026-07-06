@@ -1,0 +1,12 @@
+node_modules
+dist
+.astro
+.git
+.gitignore
+.env
+.env.*.local
+npm-debug.log*
+Dockerfile
+docker-compose.yml
+README.md
+monsite.tar

@@ -1,0 +1,147 @@
+---
+const offers = [
+  {
+    featured: false,
+    title: 'Diagnostic Cyber Express',
+    price: 'À partir de 490 €',
+    suffix: '',
+    items: [
+      'Entretien de cadrage',
+      'Questionnaire sécurité',
+      'Vérification des points essentiels',
+      'Analyse des risques prioritaires',
+      'Rapport synthétique',
+      "Plan d'action initial",
+    ],
+    cta: 'Demander un diagnostic',
+  },
+  {
+    featured: true,
+    title: 'Audit Cyber Essentiel',
+    price: 'À partir de 990 €',
+    suffix: '',
+    items: [
+      'Cartographie des actifs',
+      'Scan autorisé',
+      'Analyse des vulnérabilités',
+      'Priorisation des risques',
+      'Recommandations ANSSI/CNIL',
+      'Rapport dirigeant et technique',
+      'Restitution orale',
+    ],
+    cta: 'Planifier un audit',
+  },
+  {
+    featured: false,
+    title: 'Suivi Cyber Mensuel',
+    price: 'À partir de 249 €',
+    suffix: '/mois',
+    items: [
+      'Veille cyber personnalisée',
+      'Suivi des vulnérabilités',
+      'KPI sécurité',
+      'Point mensuel',
+      'Rapport de suivi',
+      'Aide à la priorisation',
+    ],
+    cta: 'Mettre en place un suivi',
+  },
+];
+---
+
+<section
+  id="offres"
+  class="dd-section"
+  style="position:relative; padding:90px 26px; border-top:1px solid rgba(0,230,118,.08); background:linear-gradient(180deg, rgba(4,16,26,.5), rgba(3,12,20,.5));"
+>
+  <div style="max-width:1180px; margin:0 auto;">
+    <div class="dd-reveal" style="text-align:center; max-width:720px; margin:0 auto 52px;">
+      <div style="font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; color:#00e676; margin-bottom:14px;">
+        // OFFRES
+      </div>
+      <h2 style="margin:0; font-size:clamp(30px,4.4vw,46px); font-weight:700; letter-spacing:-1px; color:#f2f9f6;">
+        Des prestations adaptées à votre niveau de maturité
+      </h2>
+    </div>
+    <div
+      style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:24px; align-items:stretch;"
+    >
+      {
+        offers.map((o) =>
+          o.featured ? (
+            <div
+              class="dd-card dd-reveal"
+              style="display:flex; flex-direction:column; padding:34px 28px; border-radius:20px; border:1px solid rgba(0,230,118,.55); background:linear-gradient(180deg, rgba(0,230,118,.07), rgba(8,22,36,.7)); backdrop-filter:blur(6px); box-shadow:0 0 0 1px rgba(0,230,118,.2), 0 20px 50px -20px rgba(0,230,118,.4); position:relative;"
+            >
+              <div style="position:absolute; top:-13px; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono'; font-size:10.5px; letter-spacing:2px; padding:6px 14px; border-radius:999px; background:#00e676; color:#04140b; font-weight:700; box-shadow:0 0 18px rgba(0,230,118,.5);">
+                RECOMMANDÉ
+              </div>
+              <h3 style="margin:0 0 6px; font-size:21px; color:#eef6f3;">{o.title}</h3>
+              <div style="font-family:'Space Grotesk'; font-weight:700; font-size:30px; color:#00e676; margin:8px 0 22px; text-shadow:0 0 18px rgba(0,230,118,.35);">
+                {o.price}
+                {o.suffix && <span style="font-size:16px; color:#8fb8ad;">{o.suffix}</span>}
+              </div>
+              <ul style="list-style:none; margin:0 0 26px; padding:0; display:flex; flex-direction:column; gap:11px; font-size:14.5px; color:#c9dbd6;">
+                {o.items.map((it) => (
+                  <li style="display:flex; gap:10px;">
+                    <span style="color:#00e676;">›</span>
+                    {it}
+                  </li>
+                ))}
+              </ul>
+              <a
+                class="dd-btn dd-primary"
+                href="#contact"
+                style="margin-top:auto; text-align:center; padding:13px; border-radius:999px; background:#00e676; color:#04140b; font-weight:700; font-size:14px; box-shadow:0 0 22px rgba(0,230,118,.45);"
+              >
+                {o.cta}
+              </a>
+            </div>
+          ) : (
+            <div
+              class="dd-card dd-reveal"
+              style="display:flex; flex-direction:column; padding:34px 28px; border-radius:20px; border:1px solid rgba(30,120,220,.28); background:rgba(8,20,34,.6); backdrop-filter:blur(6px);"
+            >
+              <h3 style="margin:0 0 6px; font-size:21px; color:#eef6f3;">{o.title}</h3>
+              <div style="font-family:'Space Grotesk'; font-weight:700; font-size:30px; color:#00e676; margin:8px 0 22px; text-shadow:0 0 18px rgba(0,230,118,.35);">
+                {o.price}
+                {o.suffix && <span style="font-size:16px; color:#8fb8ad;">{o.suffix}</span>}
+              </div>
+              <ul style="list-style:none; margin:0 0 26px; padding:0; display:flex; flex-direction:column; gap:11px; font-size:14.5px; color:#bccdc8;">
+                {o.items.map((it) => (
+                  <li style="display:flex; gap:10px;">
+                    <span style="color:#00e676;">›</span>
+                    {it}
+                  </li>
+                ))}
+              </ul>
+              <a
+                class="dd-btn dd-ghost"
+                href="#contact"
+                style="margin-top:auto; text-align:center; padding:13px; border-radius:999px; border:1px solid rgba(0,230,118,.5); color:#eafff4; font-weight:600; font-size:14px;"
+              >
+                {o.cta}
+              </a>
+            </div>
+          )
+        )
+      }
+    </div>
+
+    <div
+      class="dd-reveal"
+      style="margin-top:26px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:14px 22px; text-align:center; padding:22px 28px; border-radius:16px; border:1px dashed rgba(0,230,118,.35); background:rgba(0,230,118,.04);"
+    >
+      <span style="font-size:15.5px; line-height:1.6; color:#c3d5cf;">
+        Besoin d'un audit plus complet ou d'un accompagnement régulier&nbsp;? Des offres avancées sont disponibles sur
+        devis.
+      </span>
+      <a
+        class="dd-btn dd-ghost"
+        href="#contact"
+        style="flex:none; padding:11px 22px; border-radius:999px; border:1px solid rgba(0,230,118,.5); color:#eafff4; font-weight:600; font-size:14px;"
+        >Demander un devis</a
+      >
+    </div>
+  </div>
+</section>

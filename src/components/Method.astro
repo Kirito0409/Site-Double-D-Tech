@@ -1,0 +1,72 @@
+---
+const steps = [
+  {
+    n: 1,
+    title: 'Identifier',
+    text: 'Je commence par comprendre votre environnement, vos actifs, vos accès, vos outils et vos données sensibles.',
+  },
+  {
+    n: 2,
+    title: 'Analyser',
+    text: "J'évalue les vulnérabilités, les configurations, les risques techniques et les impacts métier.",
+  },
+  {
+    n: 3,
+    title: 'Prioriser',
+    text: "Je classe les risques selon leur gravité, leur exposition, leur facilité d'exploitation et leur impact réel.",
+  },
+  {
+    n: 4,
+    title: 'Corriger',
+    text: "Je vous propose un plan d'action concret, réaliste et adapté à vos moyens.",
+  },
+  {
+    n: 5,
+    title: 'Suivre',
+    text: 'Je peux mettre en place une veille, des indicateurs et un suivi régulier de votre sécurité.',
+  },
+];
+---
+
+<section
+  id="methode"
+  class="dd-section"
+  style="position:relative; padding:90px 26px; border-top:1px solid rgba(0,230,118,.08); border-bottom:1px solid rgba(0,230,118,.08); background:linear-gradient(180deg, rgba(4,16,26,.5), rgba(3,12,20,.5));"
+>
+  <div style="max-width:1180px; margin:0 auto;">
+    <div class="dd-reveal" style="text-align:center; max-width:760px; margin:0 auto 56px;">
+      <div style="font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; color:#00e676; margin-bottom:14px;">
+        // MÉTHODE
+      </div>
+      <h2 style="margin:0; font-size:clamp(30px,4.4vw,46px); font-weight:700; letter-spacing:-1px; color:#f2f9f6;">
+        Une méthode claire en 5 étapes
+      </h2>
+      <p style="margin:20px auto 0; font-size:16px; line-height:1.7; color:#93a8a3;">
+        Mon objectif est de rendre la cybersécurité plus lisible, plus concrète et plus actionnable pour les petites et
+        moyennes entreprises.
+      </p>
+    </div>
+
+    <div style="position:relative;">
+      <div
+        style="position:absolute; left:27px; top:10px; bottom:10px; width:2px; background:linear-gradient(180deg, transparent, rgba(0,230,118,.5), transparent);"
+      >
+      </div>
+      <div style="display:flex; flex-direction:column; gap:22px;">
+        {
+          steps.map((s) => (
+            <div class="dd-reveal" style="display:flex; gap:24px; align-items:flex-start;">
+              <div style="flex:none; position:relative; z-index:1; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk'; font-weight:700; font-size:20px; color:#00e676; background:rgba(6,24,38,.9); border:1px solid rgba(0,230,118,.5); box-shadow:0 0 20px rgba(0,230,118,.3);">
+                {s.n}
+              </div>
+              <div class="dd-card" style="flex:1; padding:22px 26px; border-radius:14px; border:1px solid rgba(0,230,118,.16); background:rgba(9,24,40,.5);">
+                <h3 style="margin:0 0 8px; font-size:19px; color:#eef6f3;">{s.title}</h3>
+                <p style="margin:0; font-size:14.5px; line-height:1.65; color:#8ba09b;">{s.text}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

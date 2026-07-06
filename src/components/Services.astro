@@ -1,0 +1,74 @@
+---
+const services = [
+  {
+    icon: '<circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path><path d="M11 8v6M8 11h6"></path>',
+    title: 'Diagnostic cyber express',
+    text: "Un état des lieux rapide pour identifier les faiblesses prioritaires : accès, sauvegardes, exposition Internet, mises à jour, vulnérabilités et bonnes pratiques.",
+  },
+  {
+    icon: '<path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"></path><path d="m9 12 2 2 4-4"></path>',
+    title: 'Audit cyber complet',
+    text: 'Une analyse plus approfondie de votre environnement : actifs, configurations, vulnérabilités, risques métier et recommandations concrètes.',
+  },
+  {
+    icon: '<path d="M10.3 3.2 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.2a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v4M12 17h.01"></path>',
+    title: 'Analyse de risque',
+    text: 'Identification des scénarios de risque pouvant impacter votre activité : compromission, fuite de données, indisponibilité, ransomware ou erreur humaine.',
+  },
+  {
+    icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle>',
+    title: 'Veille cyber personnalisée',
+    text: 'Suivi des alertes, CVE, recommandations ANSSI/CNIL et vulnérabilités pouvant concerner votre environnement.',
+  },
+  {
+    icon: '<path d="M9 11H4v9h5V11ZM15 4h-5v16h5V4ZM21 8h-5v12h5V8Z"></path>',
+    title: "Plan d'action sécurité",
+    text: 'Priorisation claire des corrections à effectuer : urgent, important, amélioration continue.',
+  },
+  {
+    icon: '<path d="M3 3v18h18"></path><path d="m7 15 3-4 3 2 5-7"></path>',
+    title: 'Suivi mensuel',
+    text: "Accompagnement régulier pour suivre l'évolution du risque, les vulnérabilités critiques et les actions de remédiation.",
+  },
+];
+---
+
+<section id="services" class="dd-section" style="max-width:1180px; margin:0 auto; padding:80px 26px;">
+  <div class="dd-reveal" style="text-align:center; max-width:720px; margin:0 auto 52px;">
+    <div style="font-family:'JetBrains Mono'; font-size:12px; letter-spacing:3px; color:#00e676; margin-bottom:14px;">
+      // SERVICES
+    </div>
+    <h2 style="margin:0; font-size:clamp(30px,4.4vw,46px); font-weight:700; letter-spacing:-1px; color:#f2f9f6;">
+      Mes services
+    </h2>
+    <p style="margin:20px auto 0; font-size:16px; line-height:1.7; color:#93a8a3;">
+      Des prestations concrètes, du diagnostic rapide au suivi continu, pensées pour les moyens réels d'une TPE/PME.
+    </p>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px;">
+    {
+      services.map((s) => (
+        <div
+          class="dd-card dd-reveal"
+          style="padding:32px 28px; border-radius:18px; border:1px solid rgba(0,230,118,.18); background:linear-gradient(180deg, rgba(9,26,42,.6), rgba(5,16,27,.55)); backdrop-filter:blur(6px);"
+        >
+          <div style="display:inline-flex; width:52px; height:52px; align-items:center; justify-content:center; border-radius:14px; border:1px solid rgba(0,230,118,.3); background:rgba(0,230,118,.08); margin-bottom:20px;">
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#00e676"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={s.icon}
+            />
+          </div>
+          <h3 style="margin:0 0 12px; font-size:20px; color:#eef6f3;">{s.title}</h3>
+          <p style="margin:0; font-size:14.5px; line-height:1.68; color:#94a9a4;">{s.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
